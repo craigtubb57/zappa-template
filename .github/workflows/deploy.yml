@@ -1,0 +1,51 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - '.github/**'
+      - 'docs/**'
+
+jobs:
+  deploy-project:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4.0.0
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4.7.0
+        with:
+          python-version: '3.9'
+
+      - name: Install pipenv
+        run: |
+          pip install pipenv
+
+      - name: Cache pipenv virtualenv
+        id: cache-pipenv
+        uses: actions/cache@v3.3.2
+        with:
+          path: ~/.local/share/virtualenvs
+          key: ${{ runner.os }}-pipenv-${{ steps.cp310.outputs.version }}-${{ hashFiles('**/Pipfile.lock') }}
+
+      - name: Install dependencies
+        if: steps.cache-pipenv.outputs.cache-hit != 'true'
+        run: pipenv install
+
+      - name: Configure AWS profile
+        run: |
+          pipenv run aws configure set region ${{ secrets.AWS_REGION }} --profile default
+          pipenv run aws configure set output json --profile default
+          pipenv run aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile default
+          pipenv run aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile default
+
+      - name: Deploy
+        id: deploy
+        run: |
+          pipenv run ./deploy.sh

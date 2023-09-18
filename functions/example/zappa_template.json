@@ -1,0 +1,21 @@
+{
+  "example": {
+    "app_function": "main.lambda_handler",
+    "project_name": "<PROJECT_NAME>",
+    "runtime": "python3.9",
+    "s3_bucket": "<AWS_ACCOUNT>-<PROJECT_NAME>",
+    "lambda_handler": "main.lambda_handler",
+    "keep_warm": false,
+    "touch": false,
+    "delete_local_zip": true,
+    "delete_s3_zip": true,
+    "cloudwatch_log_level": "ERROR",
+    "cloudwatch_data_trace": true,
+    "apigateway_enabled": false,
+    "timeout_seconds": 120,
+    "layers": ["arn:aws:lambda:<AWS_REGION>:<AWS_ACCOUNT>:layer:<PROJECT_NAME>_<FUNCTION_NAME>_libs:<EXAMPLE_LIBS_VERSION>"],
+    "aws_environment_variables": {
+      "LOG_LEVEL": "INFO"
+    }
+  }
+}
