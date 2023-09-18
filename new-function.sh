@@ -5,22 +5,33 @@ if [[ $# < 1 ]]; then
   exit 1
 fi
 function_name=$1
+echo "FUNCTION: "$function_name
 
-if [ -d "$functions/"$function_name ]; then
-  echo $function_name" exists"
-  exit 1
+overwrite=false
+if [[ $# > 1 ]]; then
+  overwrite=true
+  echo "OVERWRITE: "$overwrite
+fi
+
+if [ -d "functions/"$function_name ]; then
+  if [ $overwrite == true ]; then
+    echo "Removing previous function directory..."
+    rm -r functions/$function_name
+  else
+    echo $function_name" exists"
+    exit 1
+  fi
 fi
 
 project_name=$(basename `git rev-parse --show-toplevel`)
 
 upper_function=$(echo $function_name | tr [:lower:] [:upper:] | sed 's/-/_/g')
 
-echo "Create venv: $project_name-$function_name-venv"
-pyenv virtualenv 3.9.15 $project_name-$function_name-venv
+echo "Creating venv: $project_name-$function_name-venv..."
+result=$(pyenv virtualenv 3.9.15 $project_name-$function_name-venv)
 
-cp functions/example functions/$function_name
-while IFS='' read -r a; do
-    replaced=$(echo "${a//example/"$function_name"}")
-    replaced=$(echo "${$replaced//EXAMPLE/"$upper_function"}")
-    echo $replaced
-done < functions/example/zappa_template.json > functions/$function_name/zappa_template.json
+echo "Creating function directory..."
+cp -r functions/example functions/$function_name
+
+echo "Creating Zappa template..."
+cat functions/example/zappa_template.json | sed 's/EXAMPLE/'$upper_function'/g' | sed 's/example/'$function_name'/g' > functions/$function_name/zappa_template.json
