@@ -14,6 +14,7 @@ if [[ "$(echo $AWS_REGION)" == "" ]]; then
 fi
 
 project_name=$(basename `git rev-parse --show-toplevel`)
+echo "project_name: "$project_name
 
 export AWS_ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
 export PROJECT_NAME=$project_name
