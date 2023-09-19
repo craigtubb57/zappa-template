@@ -20,6 +20,18 @@ export PROJECT_NAME=$project_name
 export EVENT_SOURCE=$AWS_ACCOUNT"-"$project_name
 export FUNCTION_NAME=$function_name
 
-eval "$(../../scripts/libs-layer.sh $function_name $force_update | tail -1)"
+upper_project=$(echo $project_name | tr [:lower:] [:upper:] | sed 's/-/_/g')
+upper_function=$(echo $function_name | tr [:lower:] [:upper:] | sed 's/-/_/g')
+
+# export any project-function specific environment variables
+# looks for any named: {PROJECT_NAME}_{FUNCTION_NAME}_{VAR_NAME}
+# e.g. ZAPPA_TEMPLATE_EXAMPLE_MY_ENV_VAR
+for var in "${!"$upper_project"_"$upper_function"_@}"; do
+    export $(echo $var | sed 's/'$upper_project'_'$upper_function'_//g')="${!var}"
+done
+
+result="$(../../scripts/libs-layer.sh $function_name $force_update | tail -1)"
+echo "libs-layer result: "$result
+eval $result
 
 python ../../util/generate_settings.py ''$function_name''

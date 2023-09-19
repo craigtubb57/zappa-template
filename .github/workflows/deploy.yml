@@ -13,13 +13,13 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v4.0.0
+        uses: actions/checkout@72f2cec99f417b1a1c5e2e88945068983b7965f9
         with:
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
           fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v4.7.0
+        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236
         with:
           python-version: '3.9'
 
@@ -29,7 +29,7 @@ jobs:
 
       - name: Cache pipenv virtualenv
         id: cache-pipenv
-        uses: actions/cache@v3.3.2
+        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84
         with:
           path: ~/.local/share/virtualenvs
           key: ${{ runner.os }}-pipenv-${{ steps.cp310.outputs.version }}-${{ hashFiles('**/Pipfile.lock') }}

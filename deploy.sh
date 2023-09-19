@@ -16,26 +16,27 @@ pip install -r requirements.txt
 
 for f in functions/* ; do
   if [ -d "$f" ]; then
-    d=${f##*/}
-    if [[ $d != example ]]; then
-      if [[ "$function_name" == "" ]] || [[ "$function_name" == "$d" ]]; then
-        cd functions/$d
-        if [[ -f "requirements.txt" ]]; then
-          ../../scripts/configure.sh $d $force_update
+    func=${f##*/}
+    if [[ $func != example ]]; then
+      if [[ "$function_name" == "" ]] || [[ "$function_name" == "$func" ]]; then
+        echo "Function: "$func
+        cd functions/$func
+        if [[ -f "requirements.txt" ]] && [[ -f "main.py" ]]; then
+          ../../scripts/configure.sh $func $force_update
           if [[ $? -ne 0 ]]; then
             exit 1
           fi
-          status=$(zappa status $d)
+          status=$(zappa status $func)
           if [[ $status == *Error* ]]; then
-            echo "Update "$d
-            zappa update $d
+            echo "Update "$func
+            zappa update $func
           else
-            echo "Deploy "$d
-            zappa deploy $d
+            echo "Deploy "$func
+            zappa deploy $func
           fi
           [ -e zappa_settings.json ] && rm zappa_settings.json
         elif [[ "$function_name" == "" ]]; then
-          echo "ERROR: requirements.txt missing for "$d
+          echo "ERROR: requirements.txt missing for "$func
         fi
         cd -
       fi
