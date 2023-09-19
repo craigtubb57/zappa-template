@@ -9,8 +9,9 @@ fi
 
 project_name=$(basename `git rev-parse --show-toplevel`)
 
-layer_name=$project_name_$function_name"_libs"
+layer_name=$project_name"_"$function_name"_libs"
 upper_version=$(echo $function_name"_libs_version" | tr '[:lower:]' '[:upper:]')
+echo "Checking lambda layer: "$layer_name
 version=$(aws lambda list-layer-versions --layer-name $layer_name --region $AWS_REGION --query 'max_by(LayerVersions, &Version).Version' --output text)
 
 [ -e $layer_name".zip" ] && rm $layer_name".zip"

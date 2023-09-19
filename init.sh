@@ -14,3 +14,6 @@ for f in functions/* ; do
     fi
   fi
 done
+
+venv_name="$project_name-venv"
+echo $venv_name > .python-version
