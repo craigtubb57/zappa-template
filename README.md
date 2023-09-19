@@ -6,7 +6,7 @@
 Get going fast with a new [Zappa](https://github.com/zappa/Zappa) project.
 
 
-### Setup
+## Setup
 
 1. Fork this repo
 1. Create a new repo using this template
@@ -16,7 +16,7 @@ Get going fast with a new [Zappa](https://github.com/zappa/Zappa) project.
 1. Repeat 5. for each function you need
 
 
-### How does it work?
+## How does it work?
 
 When you `./deploy.sh` one or more functions, the following steps are performed inside a Python virtual environment:
 1. Top-level `requirements.txt` is installed
@@ -27,22 +27,7 @@ When you `./deploy.sh` one or more functions, the following steps are performed 
 1. `Zappa Deploy` or `Zappa Update` is run, as appropriate
 
 
-### Executables
-
-| File                                          | Use
-| --------------------------------------------: | :----------------------------------------------------------------------------------------
-| `./init.sh`                                   | Setup the main Python virtual environment, plus specific ones for each existing function
-| `./new-function.sh {function_name}`           | Create a skeleton directory for a new Lambda function
-| `./deploy.sh [function_name]`                 | Deploy one or all Lambda functions
-| `./status.sh [function_name]`                 | Check the deployment status of one or all Lambda functions
-| `./undeploy.sh [function_name]`               | Undeploy one or all Lambda functions
-| `./scripts/exec_function.sh {function_name}`  | Execute a function locally
-|                                               | Run inside the function-specific Python virtual environment
-|                                               | `functions/{function}/requirements.txt` is installed
-|                                               | Environment Variables named `{UPPER_REPO_NAME}_{UPPER_FUNCTION_NAME}_{VAR_NAME}` are exported as `{VAR_NAME}` for use by the function
-
-
-### Function Structure
+## Function Structure
 
 | File                  | Use
 | --------------------: | :----------------------------------------------------------------------------------------
@@ -57,7 +42,22 @@ When you `./deploy.sh` one or more functions, the following steps are performed 
 |                       | Environment Variables can be used for deploy-time replacement of values
 
 
-### Environment Variables
+## Executables
+
+| File                                          | Use
+| --------------------------------------------: | :----------------------------------------------------------------------------------------
+| `./init.sh`                                   | Setup the main Python virtual environment, plus specific ones for each existing function
+| `./new-function.sh {function_name}`           | Create a skeleton directory for a new Lambda function
+| `./deploy.sh [function_name]`                 | Deploy one or all Lambda functions
+| `./status.sh [function_name]`                 | Check the deployment status of one or all Lambda functions
+| `./undeploy.sh [function_name]`               | Undeploy one or all Lambda functions
+| `./scripts/exec_function.sh {function_name}`  | Execute a function locally
+|                                               | Run inside the function-specific Python virtual environment
+|                                               | `functions/{function}/requirements.txt` is installed
+|                                               | Environment Variables named `{UPPER_REPO_NAME}_{UPPER_FUNCTION_NAME}_{VAR_NAME}` are exported as `{VAR_NAME}` for use by the function
+
+
+## Environment Variables
 
 | Required              | Optional
 | :-------------------- | :----------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ When you `./deploy.sh` one or more functions, the following steps are performed 
 | AWS_SECRET_ACCESS_KEY | {UPPER_REPO_NAME}\_{UPPER_FUNCTION_NAME}\_{VAR_NAME}
 
 
-### Github Action
+## Github Action
 
 A `deploy.yml` Github Action is provided to enable deployment remotely (CD) after operations such as Push and Merge. Customise as required.
 
@@ -74,7 +74,7 @@ The Environment Variables mentioned above will need to be available in Github Se
 Individual commits of Github Action libraries are specified instead of Versions to avoid malicious updates being "injected" into the Action executions.
 
 
-### Stuff to note
+## Stuff to note
 
 An example file `zappa_template_options.json` is included to demonstrate available properties in a Zappa template.
 
@@ -84,7 +84,7 @@ Some functions are ignored when deploying:
 * Where `main.py` is missing from the function directory
 
 
-### Future Improvements
+## Future Improvements
 
 * allow other AWS credential providers to be used
 * provide some common function examples for even faster development
