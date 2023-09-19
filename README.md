@@ -5,6 +5,7 @@
 
 Get going fast with a new [Zappa](https://github.com/zappa/Zappa) project.
 
+---
 
 ## Setup
 
@@ -15,6 +16,7 @@ Get going fast with a new [Zappa](https://github.com/zappa/Zappa) project.
 1. Run `./new-function.sh {function_name}` to create a skeleton directory for your AWS Lambda function
 1. Repeat 5. for each function you need
 
+---
 
 ## How does it work?
 
@@ -26,6 +28,7 @@ When you `./deploy.sh` one or more functions, the following steps are performed 
 1. A Zappa template is generated using `zappa_template.json` inside the function directory, replacing any configured environment variables
 1. `Zappa Deploy` or `Zappa Update` is run, as appropriate
 
+---
 
 ## Function Structure
 
@@ -41,6 +44,7 @@ When you `./deploy.sh` one or more functions, the following steps are performed 
 |                       | See `zappa_template_options.json` for available properties
 |                       | Environment Variables can be used for deploy-time replacement of values
 
+---
 
 ## Executables
 
@@ -56,6 +60,7 @@ When you `./deploy.sh` one or more functions, the following steps are performed 
 |                                               | `functions/{function}/requirements.txt` is installed
 |                                               | Environment Variables named `{UPPER_REPO_NAME}_{UPPER_FUNCTION_NAME}_{VAR_NAME}` are exported as `{VAR_NAME}` for use by the function
 
+---
 
 ## Environment Variables
 
@@ -64,6 +69,7 @@ When you `./deploy.sh` one or more functions, the following steps are performed 
 | AWS_ACCESS_KEY_ID     | AWS_REGION
 | AWS_SECRET_ACCESS_KEY | {UPPER_REPO_NAME}\_{UPPER_FUNCTION_NAME}\_{VAR_NAME}
 
+---
 
 ## Github Action
 
@@ -73,6 +79,7 @@ The Environment Variables mentioned above will need to be available in Github Se
 
 Individual commits of Github Action libraries are specified instead of Versions to avoid malicious updates being "injected" into the Action executions.
 
+---
 
 ## Stuff to note
 
@@ -83,6 +90,7 @@ Some functions are ignored when deploying:
 * Where `requirements.txt` is missing from the function directory
 * Where `main.py` is missing from the function directory
 
+---
 
 ## Future Improvements
 
