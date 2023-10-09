@@ -1,7 +1,10 @@
 from __future__ import print_function
-from log import log
 import subprocess
 import json
+from os.path import exists
+from datetime import datetime as dt
+from pathlib import Path
+from util.log import log
 
 
 def list_of(obj):
@@ -30,3 +33,21 @@ def pbcopy(data):
         subprocess.run("pbcopy", text=True, input=json.dumps(data, indent = 4))
     except:
         log.warning("pbcopy not available")
+
+def dict_coalesce(dict, default, keys: list, transform = lambda k, v : v):
+    return next((transform(key, dict[key]) for key in keys if key in dict), default)
+
+def open_any_file(path, default = None):
+    if exists(path):
+        with open(path, "rb") as file:
+            return file.read()
+    return default
+
+def ttl_expired(path, ttl):
+    file_created_ts = Path(path).stat().st_mtime
+    created = dt.fromtimestamp(file_created_ts)
+    return (dt.now() - created).total_seconds() > ttl
+
+def write_to(path, bytes):
+    with open(path, "w+") as file:
+        file.write(bytes)

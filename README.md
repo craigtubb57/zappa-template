@@ -94,6 +94,6 @@ Some functions are ignored when deploying:
 
 ## Future Improvements
 
-* allow other AWS credential providers to be used
-* provide some common function examples for even faster development
-* provide an example RESTful API with easy Authentication and Authorisation integration
+[ ] allow other AWS credential providers to be used
+[ ] provide some common function examples for even faster development
+[ ] provide an example RESTful API with easy Authentication and Authorisation integration

@@ -1,14 +1,15 @@
 from __future__ import print_function
-import boto3
 import json
 import sys
-from log import log
-from decouple import config
+from util.log import log
+try:
+    from .env import Env
+except ImportError:
+    from env import Env
 
 
 def lambda_handler(event, context):
-    env_var = config('ENV_VAR')
-    log.debug(f"ENV_VAR: {env_var}")
+    env_vars = Env().vars(['ENV_VAR_1', 'ENV_VAR_2'])
 
     # do some operation
 
